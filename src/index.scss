@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-black font-body px-5 text-white;
+    @apply bg-black font-body px-5 text-white select-none;
   }
 }
 @layer components {
@@ -14,5 +14,13 @@
   }
   .movie-list .swiper-slide {
     width: 260px;
+    height: auto;
+  }
+  .banner .swiper {
+    height: 100%;
+  }
+  .similar-movie .swiper-slide {
+    width: 260px;
+    height: auto;
   }
 }
