@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const MovieDetailPage = () => {
   const { movieId } = useParams();
-  const { data } = useSWR(
+  const { data, error } = useSWR(
     `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`,
     fetcher
   );
@@ -51,15 +51,16 @@ const MovieDetailPage = () => {
       <div className="text-center w-full max-w-[700px] mx-auto mt-16 leading-8">
         {overview}
       </div>
+
       {/* video movie */}
       <MovieVideo></MovieVideo>
-      {/* similar */}
-      <SimilarMovie></SimilarMovie>
       {/* credits */}
       <div className="relative">
         <MovieCredits></MovieCredits>
-        <div className="max-w-[1px] h-[390px] w-full bg-clr-green absolute bottom-0 left-[50%]"></div>
+        <div className="line max-w-[1px] h-[calc(100%-120px)]  w-full bg-clr-green absolute bottom-0 left-[50%]"></div>
       </div>
+      {/* similar */}
+      <SimilarMovie></SimilarMovie>
     </>
   );
 };
@@ -73,21 +74,28 @@ function MovieVideo() {
   );
   if (!data || data?.results.length <= 0) return null;
   const { results } = data;
-
   return (
     <>
       <div className="py-10">
         {results.slice(0, 1).map((item) => (
-          <div key={item.id} className="aspect-video max-w-[1000px] mx-auto">
-            <iframe
-              width="1904"
-              height="781"
+          <div key={item.id} className="mx-auto aspect-video">
+            {/* <iframe
+              width="1024"
+              height="576"
               src={`https://www.youtube.com/embed/${item.key}`}
-              title="Lazy load image trong NEXT, React"
+              title={item.title}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
-              className="object-cover w-full h-full"
+              className="object-fill w-full h-full"
+            ></iframe> */}
+            <iframe
+              width="1001"
+              height="563"
+              src={`https://www.youtube.com/embed/${item.key}`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="object-fill w-full h-full"
             ></iframe>
           </div>
         ))}
@@ -107,7 +115,7 @@ function SimilarMovie() {
   const { results } = data;
   console.log(data);
   return (
-    <div className="px-20">
+    <div className="px-20 py-20">
       <h1 className="py-10 text-4xl ">Similar Movies</h1>
       <div className="similar-movie">
         <Swiper slidesPerView={"4"} spaceBetween={40} grabCursor="true">

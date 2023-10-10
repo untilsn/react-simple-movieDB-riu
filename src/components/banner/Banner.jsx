@@ -60,7 +60,7 @@ function BannerItem({ item }) {
               viewBox="0 0 24 24"
               strokeWidth="2.5"
               stroke="currentColor"
-              class="w-4 h-4 ml-[3px] text-primary"
+              className="w-4 h-4 ml-[3px] text-primary"
             >
               <path
                 strokeLinecap="round"
