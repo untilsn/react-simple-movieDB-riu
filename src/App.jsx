@@ -10,13 +10,13 @@ function App() {
   return (
     <Fragment>
       <Routes>
-        <Route element={<MainPage />}>
+        <Route element={<MainPage></MainPage>}>
           <Route
             path="/"
             element={
               <>
                 <Banner></Banner>
-                <HomePage />
+                <HomePage></HomePage>
               </>
             }
           />
