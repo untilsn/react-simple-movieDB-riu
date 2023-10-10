@@ -5,7 +5,7 @@ import "swiper/scss";
 import { fetcher } from "../../config/Config";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const Banner = () => {
+const BannerMovie = () => {
   const { data } = useSWR(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=e08d2ec789bf35e25fb949041d8d545e`,
     fetcher
@@ -75,4 +75,4 @@ function BannerItem({ item }) {
   );
 }
 
-export default Banner;
+export default BannerMovie;

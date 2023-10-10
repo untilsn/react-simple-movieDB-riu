@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom"; // Thêm Router từ react-rou
 import MainPage from "./components/layout/MainPage";
 import "swiper/scss";
 import HomePage from "./pages/HomePage";
-import Banner from "./components/banner/banner";
+import BannerMovie from "./components/banner/BannerMovie";
 import MoviePages from "./pages/MoviePages";
 import MovieDetailPage from "./pages/MovieDetailPage";
 function App() {
@@ -15,7 +15,7 @@ function App() {
             path="/"
             element={
               <>
-                <Banner></Banner>
+                <BannerMovie></BannerMovie>
                 <HomePage></HomePage>
               </>
             }
