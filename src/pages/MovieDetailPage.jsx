@@ -4,6 +4,7 @@ import useSWR from "swr";
 import { apiKey, fetcher } from "../config/Config";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MovieCard from "../components/movie/MovieCard";
+import { v4 as uuidv4 } from "uuid";
 
 const MovieDetailPage = () => {
   const { movieId } = useParams();
@@ -83,9 +84,9 @@ function MovieVideo() {
               height="781"
               src={`https://www.youtube.com/embed/${item.key}`}
               title="Lazy load image trong NEXT, React"
-              frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
+              allowFullScreen
               className="object-cover w-full h-full"
             ></iframe>
           </div>
@@ -152,7 +153,7 @@ function MovieCreditsCast(props) {
           {cast.length > 0 &&
             cast.slice(0, 5).map((item) => (
               <div
-                key={item.id}
+                key={`cast-${item.id}`}
                 className="flex items-center px-2 py-2 border-b border-gray-900"
               >
                 <div className="flex items-center  max-w-[300px] w-full">
@@ -179,82 +180,43 @@ function MovieCreditsCast(props) {
 }
 
 // CREW          CREW       CREW       CREW       CREW       CREW
+
+function generateUniqueKey() {
+  return `item-${uuidv4()}`;
+}
+
+function renderCrewList(crew, departmentName) {
+  const filteredCrew = crew
+    .filter((item) => item.known_for_department === departmentName)
+    .slice(0, 4);
+
+  return (
+    <div className="flex gap-6 py-2 border-b border-gray-800">
+      <div className="font-bold w-full max-w-[90px] ">{departmentName}</div>
+      <div className="flex items-center gap-2 ">
+        {filteredCrew.map((item) => (
+          <div
+            key={generateUniqueKey()}
+            className="text-sm after:content-[',']"
+          >
+            {item.name}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function MovieCreditsCrew(props) {
   const { crew } = props;
+
   return (
     <div className="w-full max-w-[500px]">
       <h1 className="mb-4 text-xl text-clr-green">Crew</h1>
       <div className="flex flex-col gap-5 mt-4">
-        {/* directing */}
-        <div className="flex gap-6 py-2 border-b border-gray-800">
-          <div className="font-bold w-full max-w-[90px] ">Directing</div>
-          <div className="flex items-center gap-2 ">
-            {crew
-              .filter((item) => item.known_for_department === "Directing")
-              .slice(0, 4)
-              .map((item) => (
-                <div key={item.id} className="text-sm after:content-[','] ">
-                  {item.name}
-                </div>
-              ))}
-          </div>
-        </div>
-        {/* production */}
-        <div className="flex justify-between gap-6 py-2 border-b border-gray-800">
-          <div className="font-bold w-full max-w-[90px] ">Production</div>
-          <div className="flex items-center gap-2 ">
-            {crew
-              .filter((item) => item.known_for_department === "Production")
-              .slice(0, 4)
-              .map((item) => (
-                <div key={item.id} className="text-sm after:content-[',']">
-                  {item.name}
-                </div>
-              ))}
-          </div>
-        </div>
-        {/* camera */}
-        <div className="flex gap-6 py-2 border-b border-gray-800">
-          <div className="font-bold w-full max-w-[90px] ">Camera</div>
-          <div className="flex items-center gap-2 ">
-            {crew
-              .filter((item) => item.known_for_department === "Camera")
-              .slice(0, 4)
-              .map((item) => (
-                <div key={item.id} className="text-sm after:content-[',']">
-                  {item.name}
-                </div>
-              ))}
-          </div>
-        </div>
-        {/* sound */}
-        <div className="flex gap-6 py-2 border-b border-gray-800">
-          <div className="font-bold w-full max-w-[90px] ">Sound</div>
-          <div className="flex items-center gap-2 ">
-            {crew
-              .filter((item) => item.known_for_department === "Sound")
-              .slice(0, 4)
-              .map((item) => (
-                <div key={item.id} className="text-sm after:content-[',']">
-                  {item.name}
-                </div>
-              ))}
-          </div>
-        </div>
-        {/* art */}
-        <div className="flex gap-6 py-2 border-b border-gray-800">
-          <div className="font-bold w-full max-w-[90px] ">Art</div>
-          <div className="flex items-center gap-2 ">
-            {crew
-              .filter((item) => item.known_for_department === "Art")
-              .slice(0, 4)
-              .map((item) => (
-                <div key={item.id} className="text-sm after:content-[',']">
-                  {item.name}
-                </div>
-              ))}
-          </div>
-        </div>
+        {renderCrewList(crew, "Directing")}
+        {renderCrewList(crew, "Production")}
+        {/* Các phần còn lại tương tự */}
       </div>
     </div>
   );

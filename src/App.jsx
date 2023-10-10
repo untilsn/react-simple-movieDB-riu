@@ -6,7 +6,6 @@ import HomePage from "./pages/HomePage";
 import Banner from "./components/banner/banner";
 import MoviePages from "./pages/MoviePages";
 import MovieDetailPage from "./pages/MovieDetailPage";
-
 function App() {
   return (
     <Fragment>
