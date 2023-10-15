@@ -1,15 +1,12 @@
 import React from "react";
 import useSWR from "swr";
-import "swiper/scss";
-
-import { fetcher } from "../../config/Config";
+import { fetcher, tmdbAPI } from "../../config/Config";
 import { Swiper, SwiperSlide } from "swiper/react";
+import ButtonMovie from "../button/ButtonMovie";
+import { useNavigate } from "react-router-dom";
 
-const BannerMovie = () => {
-  const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=e08d2ec789bf35e25fb949041d8d545e`,
-    fetcher
-  );
+const BannerMovie = ({ type = "upcoming" }) => {
+  const { data } = useSWR(tmdbAPI.getMovieList(type), fetcher);
   const movies = data?.results || [];
   return (
     <section className="banner h-[500px] page-container mb-20 overflow-hidden">
@@ -26,13 +23,14 @@ const BannerMovie = () => {
 };
 
 function BannerItem({ item }) {
-  const { title, poster_path } = item;
+  const { title, poster_path, id } = item;
+  const navigate = useNavigate();
 
   return (
     <div className="relative w-full h-full bg-white rounded-xl">
       <div className="overlay absolute inset-0 rounded-xl bg-gradient-to-t from-[rgba(0,0,0,0.7)] to-[rgba(0,0,0,0.1)] "></div>
       <img
-        src={`http://image.tmdb.org/t/p/original/${poster_path}`}
+        src={tmdbAPI.imageOriginal(poster_path)}
         alt=""
         className="object-cover w-full h-full rounded-xl"
       />
@@ -49,7 +47,11 @@ function BannerItem({ item }) {
             Marvel
           </span>
         </div>
-        <button className="flex items-center gap-4 px-6 py-2 bg-primary rounded-xl bg-[rgba(0,0,0,0.4)] ">
+        <ButtonMovie
+          onClick={() => navigate(`/movie/${id}`)}
+          bgColor="secondary"
+          className="flex items-center justify-between w-full max-w-[120px] gap-2"
+        >
           <span className="text-lg font-semibold text-white select-none ">
             Watch
           </span>
@@ -69,7 +71,7 @@ function BannerItem({ item }) {
               />
             </svg>
           </div>
-        </button>
+        </ButtonMovie>
       </div>
     </div>
   );
